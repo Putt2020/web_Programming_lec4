@@ -13,5 +13,15 @@
   <%= @user.birthday %>
 </p>
 
+<p>
+  <strong>Address:</strong>
+  <%= @user.address %>
+</p>
+
+<p>
+  <strong>Postal code:</strong>
+  <%= @user.postal_code %>
+</p>
+
 <%= link_to 'Back', users_path %>
 <%= link_to 'Create_fast', users_path.concat("/Create_fast?name=#{@user.name}&email=#{@user.email}")%>

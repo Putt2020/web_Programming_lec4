@@ -59,7 +59,7 @@ class UsersController < ApplicationController
   def revive
     @name = params[:name]
     @email = params[:email]
-    User.create(name: @name, email: @email)
+    User.create(name: @name, email: @email, birthday: DateTime.current.to_date, address: "unknown", postal_code: "unknown")
   end
 
   private

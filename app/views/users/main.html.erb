@@ -1,0 +1,18 @@
+<%= form_with url: "/main", method: :get do |form| %>
+  <p id="notice"><%= notice %></p>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.text_field :email %>
+  </div>
+
+  <div class="field">
+    <%= form.label :password %>
+    <%= form.text_field :password %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Login"%>
+  </div>
+<% end %>
+

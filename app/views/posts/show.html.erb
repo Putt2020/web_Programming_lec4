@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Msg:</strong>
+  <%= @post.msg %>
+</p>
+
+<p>
+  <strong>Update Time:</strong>
+  <%= @post.updated_at %>
+</p>
+
+<%= link_to 'Edit', edit_user_post_path(@user, @post) %> |
+<%= link_to 'Back', user_posts_path(@user).concat("/show") %>

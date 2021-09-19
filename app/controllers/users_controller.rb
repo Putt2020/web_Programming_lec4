@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[ show edit update destroy ] # to do set_user in show edut update and destroy
+  before_action :set_user, only: %i[ show edit update destroy userPost ] # to do set_user in show edut update and destroy
 
   # GET /users or /users.json
   def index
@@ -59,7 +59,22 @@ class UsersController < ApplicationController
   def revive
     @name = params[:name]
     @email = params[:email]
-    User.create(name: @name, email: @email, birthday: DateTime.current.to_date, address: "unknown", postal_code: "unknown")
+    User.create(name: @name, email: @email, birthday: DateTime.current.to_date, address: "unknown", postal_code: "unknown", pasword: "abc")
+  end
+
+  def main
+    logging = params[:commit]
+    @user = User.find_by(email: params[:email], password: params[:password])
+    if !@user.nil?
+      redirect_to user_posts_path(@user).concat("/show")
+    end
+    if @user.nil? && logging == "Login"
+      redirect_to '/main', notice: "Either email or password is incorrect :)"
+    end
+  end
+
+  def userPost
+
   end
 
   private
@@ -70,6 +85,6 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:email, :name, :birthday, :address, :postal_code)
+      params.require(:user).permit(:email, :name, :birthday, :address, :postal_code, :password)
     end
 end

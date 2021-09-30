@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+your user id is: <%= @user.id%>
+
 <p>
   <strong>Email:</strong>
   <%= @user.email %>
@@ -44,9 +46,9 @@
       <tr>
         <td><%= post.msg %></td>
         <td><%= post.updated_at %></td>
-        <td><%= link_to 'Show', user_post_path(@user, post) %></td>
-        <td><%= link_to 'Edit', edit_user_post_path(@user, post) %></td>
-        <td><%= link_to 'Destroy', user_post_path(@user, post), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', post_path(post) %></td>
+        <td><%= link_to 'Edit', edit_post_path(post) %></td>
+        <td><%= link_to 'Destroy', post_path(post), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -54,5 +56,6 @@
 
 <br>
 
-<%= link_to 'New Post', new_user_post_path(@user) %> |
+<%= link_to 'New Post', new_post_path %> |
+<%= link_to 'see all posts', posts_path %> |
 <%= link_to 'Log out', '/main' %>

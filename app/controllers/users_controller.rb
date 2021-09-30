@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[ show edit update destroy userPost ] # to do set_user in show edut update and destroy
+  before_action :set_user, only: %i[ show edit update destroy ] # to do set_user in show edut update and destroy
+  before_action :logged_in, except: %i[ main new create ]
 
   # GET /users or /users.json
   def index
@@ -25,6 +26,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
+        session[:user_id] = @user.id
         format.html { redirect_to @user, notice: "User was successfully created." }
         format.json { render :show, status: :created, location: @user }
       else
@@ -63,22 +65,34 @@ class UsersController < ApplicationController
   end
 
   def main
+    session[:user_id] = nil # cookie
     logging = params[:commit]
-    @user = User.find_by(email: params[:email], password: params[:password])
-    if !@user.nil?
-      redirect_to user_posts_path(@user).concat("/show")
+    loginSuccess = false
+    @user = User.find_by(email: params[:email])
+    if @user && @user.authenticate(params[:password]) #@user -> check is it null
+      redirect_to userPost_path
+      loginSuccess = true
+      session[:user_id] = @user.id # cookie
     end
-    if @user.nil? && logging == "Login"
+    if !loginSuccess && params[:commit] == "Login"
       redirect_to '/main', notice: "Either email or password is incorrect :)"
     end
   end
 
   def userPost
-
+    @user = User.find_by(id: session[:user_id])
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def logged_in
+      if(session[:user_id])
+        return true
+      else
+        redirect_to main_path, notice: "you did not login"
+      end
+    end
+
     def set_user
       @user = User.find(params[:id])
     end
